@@ -1,0 +1,69 @@
+#%RAML 1.0 Library
+
+uses:
+  commons: https://raw.githubusercontent.com/apiregistry/commons/master/commons.raml
+annotationTypes:
+      RequiredIn:
+        type: string | string[]
+        description: defines ids of the scopes where property usage is required
+        allowedTargets: [ TypeDeclaration, AnnotationType ]
+      DisallowedIn:
+        type: string | string[]
+        description: defines ids of the scopes where property usage is disallowed
+        allowedTargets: [ TypeDeclaration, AnnotationType ]
+      VisibleIn:
+          type: string | string[]
+          description: states that this property is only visible when certain scopes present
+          allowedTargets: TypeDeclaration
+      Readonly:
+        type: boolean
+        description: this is a shortcut marking that property is only visible/exists in situations when data type is used as an output parameter of operation
+        allowedTargets: TypeDeclaration
+      Attached:
+        type: string| string[]
+        description: scope or set of scopes associated with a given type or property declaration
+        allowedTargets: [ TypeDeclaration ]
+      RefersTo:
+          type: Pointer| Pointer[]
+          allowedTargets: [ TypeDeclaration ]
+      syntetic:
+        type: boolean
+        allowedTargets: [ TypeDeclaration ]
+        description: allows to mark that type or parameter is syntetic and should be ignored
+      Pagination:
+        type: TokenBasePagination | NextLinkBasedPagination
+        description: this annotation allows to provide information about pagination mechanism used by Method
+        allowedTargets: [ Method ]
+        example:
+          inputToken: "nextToken"
+          outputToken: "nextToken"
+          limitKey: "limit"
+          resultKey: "configurationItems"
+      XmlOrder:
+        type: string[]
+        description: This annotation allows to specify order in which properties should be stored in xml
+        allowedTargets: [TypeDeclaration]
+  types:
+    TokenBasePagination:
+      properties:
+        inputToken?: RequestElementPointer | RequestElementPointer[]
+        outputToken?: ResponseElementPointer | ResponseElementPointer[]
+        limitKey?: RequestElementPointer
+        resultKey?: ResponseElementPointer | ResponseElementPointer[]
+        moreResults? : RequestElementPointer
+    NextLinkBasedPagination:
+        properties:
+          nextLinkName:
+            type: ResponseElementPointer
+            description: response element storing url to get next set of results
+    ScopeRefererence:
+        type: string | string[]
+        description: reference to scope name or names, alternativ
+    PropertyPointer:
+      type: string
+    TypePointer:
+      type: string
+    Pointer:
+      type: TypePointer | PropertyPointer
+    RequestElementPointer: string
+    ResponseElementPointer: string

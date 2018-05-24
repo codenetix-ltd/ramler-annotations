@@ -1,0 +1,15 @@
+#%RAML 1.0 Library
+
+uses:
+  commons: https://raw.githubusercontent.com/apiregistry/commons/master/commons.raml
+  et: expression-types.raml
+
+annotationTypes:
+    identificationProperties:
+      type: object
+      properties:
+        //:
+          type: object
+          properties:
+            type: string
+            identifierOf: et.RAMLLocalExpression
